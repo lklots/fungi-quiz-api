@@ -2,7 +2,7 @@
   "name": "fungi-quiz-api",
   "version": "1.0.0",
   "description": "Backend that powers the Fungi Quiz.",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "git@github.com:lklots/fungi-quiz-api.git",
   "author": "Levy Klots",
   "license": "MIT",
@@ -10,5 +10,10 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8"
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
   }
 }
