@@ -5,17 +5,17 @@ const { buildSchema } = require('graphql');
 const schema = buildSchema(`
   type Query {
     question: Question
-    guess(id: ID!): ID!
+    guess(qid: ID!, taxaId: ID!): ID!
   }
 
   type Question {
-    id: ID!
+    qid: ID!
     pic: String!
     choices: [Choice]!
   }
 
   type Choice {
-    id: ID!
+    taxaId: ID!
     name: String!
     commonName: String!
   }
@@ -25,15 +25,15 @@ const schema = buildSchema(`
 const root = {
   question: () => {
     const q = {
-      id: 'testid',
+      qid: 'testid',
       pic: 'https://static.inaturalist.org/photos/3235960/medium.jpg?1459121239',
       choices: [{
-        id: 47347,
+        taxaId: 47347,
         name: 'Cantharellus cibarius',
         commonName: 'Golden Chanterelle',
       },
       {
-        id: 67752,
+        taxaId: 67752,
         name: 'Omphalotus olivascens',
         commonName: 'Western American Jack-o\'-lantern Mushroom',
       }],
@@ -41,7 +41,7 @@ const root = {
     return q;
   },
   guess: (guess) => {
-    console.log(`guess was ${guess.id=="47347"}`);
+    console.log(`guess was ${guess.tid=="47347"}`);
     return 47347;
   },
 };
