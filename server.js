@@ -41,7 +41,7 @@ const root = {
     return q;
   },
   guess: (guess) => {
-    console.log(`guess was ${guess.tid=="47347"}`);
+    console.log(`guess was ${guess.tid === '47347'}`);
     return 47347;
   },
 };
