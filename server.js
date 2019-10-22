@@ -5,6 +5,7 @@ const { buildSchema } = require('graphql');
 const schema = buildSchema(`
   type Query {
     question: Question
+    guess(id: ID!): ID!
   }
 
   type Question {
@@ -38,6 +39,10 @@ const root = {
       }],
     };
     return q;
+  },
+  guess: (guess) => {
+    console.log(`guess was ${guess.id=="47347"}`);
+    return 47347;
   },
 };
 
