@@ -1,10 +1,13 @@
+const axios = require('axios');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
 
+const INAT_API = 'https://api.inaturalist.org/v1';
+
 const schema = buildSchema(`
   type Query {
-    question: Question
+    question(taxonId: ID!): Question
     guess(qid: ID!, taxonId: ID!): ID!
   }
 
@@ -21,29 +24,44 @@ const schema = buildSchema(`
   }
 `);
 
+async function question({ taxonId }) {
+  const observations = await axios({
+    method: 'get',
+    url: `${INAT_API}/observations`,
+    params: {
+      taxon_id: taxonId,
+      photos: 'true',
+      quality_grade: 'research',
+      order: 'desc',
+      order_by: 'created_at',
+    },
+  });
+  const obs = observations.data.results[0];
+  return {
+    qid: 'testid',
+    pic: obs.photos[0].url,
+    choices: [{
+      taxonId: obs.taxon.id,
+      name: obs.taxon.name,
+      commonName: obs.taxon.preferred_common_name,
+    },
+    {
+      taxonId: 67752,
+      name: 'Omphalotus olivascens',
+      commonName: 'Western American Jack-o\'-lantern Mushroom',
+    }],
+  };
+}
+
+async function guess({ taxonId }) {
+  console.log(`guess was ${guess.taxonId === '47347'}`);
+  return 47347;
+}
+
 // The root provides a resolver function for each API endpoint
 const root = {
-  question: () => {
-    const q = {
-      qid: 'testid',
-      pic: 'https://static.inaturalist.org/photos/3235960/medium.jpg?1459121239',
-      choices: [{
-        taxonId: 47347,
-        name: 'Cantharellus cibarius',
-        commonName: 'Golden Chanterelle',
-      },
-      {
-        taxonId: 67752,
-        name: 'Omphalotus olivascens',
-        commonName: 'Western American Jack-o\'-lantern Mushroom',
-      }],
-    };
-    return q;
-  },
-  guess: (guess) => {
-    console.log(`guess was ${guess.taxonId === '47347'}`);
-    return 47347;
-  },
+  question,
+  guess,
 };
 
 const app = express();
