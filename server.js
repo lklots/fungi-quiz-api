@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const axios = require('axios');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
@@ -13,7 +14,7 @@ const schema = buildSchema(`
 
   type Question {
     qid: ID!
-    pic: String!
+    pics: [String]!
     choices: [Choice]!
   }
 
@@ -36,10 +37,13 @@ async function question({ taxonId }) {
       order_by: 'created_at',
     },
   });
-  const obs = observations.data.results[0];
+
+  // pick a random observation
+  const obs = _.sample(observations.data.results);
+  const pics = obs.photos.map((photo) => photo.url.replace('square.jp', 'medium.jp'));
   return {
     qid: 'testid',
-    pic: obs.photos[0].url,
+    pics,
     choices: [{
       taxonId: obs.taxon.id,
       name: obs.taxon.name,
@@ -49,7 +53,7 @@ async function question({ taxonId }) {
       taxonId: 67752,
       name: 'Omphalotus olivascens',
       commonName: 'Western American Jack-o\'-lantern Mushroom',
-    }],
+    }];
   };
 }
 
