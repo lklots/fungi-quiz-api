@@ -1,0 +1,9 @@
+{
+  "name": "fungi-quiz-api",
+  "version": "1.0.0",
+  "description": "Backend that powers the Fungi Quiz.",
+  "main": "index.js",
+  "repository": "git@github.com:lklots/fungi-quiz-api.git",
+  "author": "Levy Klots",
+  "license": "MIT"
+}
