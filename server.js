@@ -9,8 +9,12 @@ const INAT_API = 'https://api.inaturalist.org/v1';
 
 const schema = buildSchema(`
   type Query {
-    question(taxonId: ID!): Question
-    guess(qid: ID!, taxonId: ID!): ID!
+    getQuestion(qid: ID!): Question
+  }
+
+  type Mutation {
+    createQuestion(taxonId: ID!): Question
+    makeGuess(qid: ID!, taxonId: ID!): ID!
   }
 
   type Question {
@@ -26,7 +30,11 @@ const schema = buildSchema(`
   }
 `);
 
-async function question({ taxonId }) {
+async function getQuestion({ qid }) {
+  throw ('not implemented');
+}
+
+async function createQuestion({ taxonId }) {
   const observations = await axios({
     method: 'get',
     url: `${INAT_API}/observations`,
@@ -54,19 +62,19 @@ async function question({ taxonId }) {
       taxonId: 67752,
       name: 'Omphalotus olivascens',
       commonName: 'Western American Jack-o\'-lantern Mushroom',
-    }];
+    }],
   };
 }
 
-async function guess({ taxonId }) {
+async function makeGuess({ qid, taxonId }) {
   console.log(`guess was ${guess.taxonId === '47347'}`);
   return 47347;
 }
 
 // The root provides a resolver function for each API endpoint
 const root = {
-  question,
-  guess,
+  createQuestion,
+  makeGuess,
 };
 
 const app = express();
