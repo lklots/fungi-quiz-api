@@ -67,7 +67,7 @@ async function createQuestion({ taxonId }) {
 }
 
 async function makeGuess({ qid, taxonId }) {
-  console.log(`guess was ${guess.taxonId === '47347'}`);
+  console.log(`guess was ${taxonId === '47347'}`);
   return 47347;
 }
 
