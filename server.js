@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const delay = require('delay');
 const axios = require('axios');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
@@ -19,7 +20,7 @@ const schema = buildSchema(`
 
   type Question {
     qid: ID!
-    pics: [String]!
+    photos: [Photos]!
     choices: [Choice]!
   }
 
@@ -27,6 +28,12 @@ const schema = buildSchema(`
     taxonId: ID!
     name: String!
     commonName: String!
+  }
+
+  type Photos {
+    url: String!
+    origWidth: Int!
+    origHeight: Int!
   }
 `);
 
@@ -49,10 +56,14 @@ async function createQuestion({ taxonId }) {
 
   // pick a random observation
   const obs = _.sample(observations.data.results);
-  const pics = obs.photos.map((photo) => photo.url.replace('square.jp', 'medium.jp'));
+  const photos = obs.photos.map((photo) => ({
+    url: photo.url.replace('square.jp', 'original.jp'),
+    origWidth: photo.original_dimensions.width,
+    origHeight: photo.original_dimensions.height,
+  }));
   return {
     qid: 'testid',
-    pics,
+    photos,
     choices: [{
       taxonId: obs.taxon.id,
       name: obs.taxon.name,
@@ -62,6 +73,11 @@ async function createQuestion({ taxonId }) {
       taxonId: 67752,
       name: 'Omphalotus olivascens',
       commonName: 'Western American Jack-o\'-lantern Mushroom',
+    },
+    {
+      taxonId: 63538,
+      name: 'Hygrophoropsis aurantiaca',
+      commonName: 'False Chanterelle',
     }],
   };
 }
