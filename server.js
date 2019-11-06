@@ -55,7 +55,7 @@ async function createQuestion({ taxonId }) {
   });
 
   // pick a random observation
-  const obs = _.sample(observations.data.results);
+  const obs = _.sample(observations.data.results.filter((x) => x.photos.length >= 2));
   const photos = obs.photos.map((photo) => ({
     url: photo.url.replace('square.jp', 'original.jp'),
     origWidth: photo.original_dimensions.width,
