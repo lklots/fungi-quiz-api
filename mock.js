@@ -1,13 +1,9 @@
 const _ = require('lodash');
-const { MockList } = require('graphql-tools');
 
-module.exports = {
-  Mutation: () => ({
-    createQuiz: () => new MockList([1, 10]),
-    makeGuess: (root, { questionId }) => _.last(_.split(questionId, '-')),
-  }),
-  Question: () => ({
-    questionId: 'questionId-47347',
+function mockQuestion(taxonId) {
+  const answer = taxonId || 47347;
+  return {
+    questionId: `questionId-${answer}`,
     photos: [{
       url: 'mushroom1.jpg',
       origWidth: 500,
@@ -33,7 +29,19 @@ module.exports = {
       name: 'Hygrophoropsis aurantiaca',
       commonName: 'False Chanterelle',
     }],
+  };
+}
+
+module.exports = {
+  Mutation: () => ({
+    makeGuess: (_root, { questionId }) => _.last(_.split(questionId, '-')),
+    createQuiz: (_root, { taxonIds }) => {
+      return {
+        questions: taxonIds.map(mockQuestion),
+      };
+    },
   }),
+  Question: () => mockQuestion(),
   Choice: () => ({
     taxonId: () => 47347,
     name: () => 'Chanterelleus Goldilocks',

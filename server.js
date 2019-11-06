@@ -11,9 +11,14 @@ const schema = `
   }
 
   type Mutation {
-    createQuiz(taxonIds: [ID]!): [Question]!
+    createQuiz(taxonIds: [ID]!): Quiz!
     createQuestion(taxonId: ID!): Question!
     makeGuess(questionId: ID!, taxonId: ID!): ID!
+  }
+
+  type Quiz {
+    quizId: ID!
+    questions: [Question]!
   }
 
   type Question {

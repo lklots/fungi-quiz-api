@@ -23,25 +23,28 @@ async function createQuiz({ taxonIds }) {
     origWidth: photo.original_dimensions.width,
     origHeight: photo.original_dimensions.height,
   }));
-  return [{
-    questionId: 'testid',
-    photos,
-    choices: [{
-      taxonId: obs.taxon.id,
-      name: obs.taxon.name,
-      commonName: obs.taxon.preferred_common_name,
-    },
-    {
-      taxonId: 67752,
-      name: 'Omphalotus olivascens',
-      commonName: 'Western American Jack-o\'-lantern Mushroom',
-    },
-    {
-      taxonId: 63538,
-      name: 'Hygrophoropsis aurantiaca',
-      commonName: 'False Chanterelle',
+  return {
+    quizId: 'quizId',
+    questions: [{
+      questionId: 'testid',
+      photos,
+      choices: [{
+        taxonId: obs.taxon.id,
+        name: obs.taxon.name,
+        commonName: obs.taxon.preferred_common_name,
+      },
+      {
+        taxonId: 67752,
+        name: 'Omphalotus olivascens',
+        commonName: 'Western American Jack-o\'-lantern Mushroom',
+      },
+      {
+        taxonId: 63538,
+        name: 'Hygrophoropsis aurantiaca',
+        commonName: 'False Chanterelle',
+      }],
     }],
-  }];
+  };
 }
 
 async function createQuestion({ taxonId }) {
