@@ -9,7 +9,7 @@ const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tool
 
 
 const resolvers = require('./resolvers');
-const { query, pool } = require('./db');
+const { pool } = require('./db');
 
 const schema = `
   type Query {
@@ -57,8 +57,9 @@ app.use(session({
   store: new PgSession({
     pool: pool(),
   }),
-  secret: 'mysecret', // process.env.FOO_COOKIE_SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: false,
+  saveUninitialized: true,
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
 }));
 

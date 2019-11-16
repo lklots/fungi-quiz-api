@@ -19,13 +19,14 @@
     "pg": "^7.12.1"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "nodemon": "^1.19.4"
   },
   "scripts": {
-    "start": "./node_modules/.bin/nodemon start",
-    "dev": "./node_modules/.bin/nodemon start -- --mock"
+    "start": "./node_modules/.bin/nodemon -r dotenv/config",
+    "mock": "./node_modules/.bin/nodemon -- --mock"
   }
 }
