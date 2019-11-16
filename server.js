@@ -1,9 +1,15 @@
 const _ = require('lodash');
 const express = require('express');
+const session = require('express-session');
+const PgSession = require('connect-pg-simple')(session);
+
 const graphqlHTTP = require('express-graphql');
 const cors = require('cors');
 const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools');
+
+
 const resolvers = require('./resolvers');
+const { query, pool } = require('./db');
 
 const schema = `
   type Query {
@@ -46,6 +52,16 @@ const MOCK_MODE = _.find(process.argv, (x) => x === '--mock');
 const graphqlSchema = makeExecutableSchema({ typeDefs: schema });
 
 const app = express();
+
+app.use(session({
+  store: new PgSession({
+    pool: pool(),
+  }),
+  secret: 'mysecret', // process.env.FOO_COOKIE_SECRET,
+  resave: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
+}));
+
 app.use(cors());
 if (!MOCK_MODE) {
   app.use('/graphql', graphqlHTTP({
