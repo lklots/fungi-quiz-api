@@ -30,10 +30,10 @@ const schema = `
   type Question {
     questionId: ID!
     photos: [Photos]!
-    choices: [Choice]!
+    choices: [Taxon]!
   }
 
-  type Choice {
+  type Taxon {
     taxonId: ID!
     name: String!
     commonName: String!
