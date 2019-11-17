@@ -3,6 +3,19 @@ const axios = require('axios');
 
 const INAT_API = 'https://api.inaturalist.org/v1';
 
+async function getTaxonTree() {
+  const taxons = await axios({
+    method: 'get',
+    url: `${INAT_API}/taxa/${[47347, 63538, 67752].join(',')}`,
+  });
+  return taxons.data.results.map((t) => ({
+    taxonId: t.id,
+    name: t.name,
+    commonName: t.preferred_common_name,
+    photoUrl: t.default_photo.medium_url,
+  }));
+}
+
 function makeQuestion(obs, choices) {
   const photos = obs.photos.map((photo) => ({
     url: photo.url.replace('square.jp', 'medium.jp'),
@@ -95,4 +108,5 @@ module.exports = {
   createQuiz,
   createQuestion,
   makeGuess,
+  getTaxonTree,
 };

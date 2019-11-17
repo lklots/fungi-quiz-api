@@ -13,7 +13,8 @@ const { pool } = require('./db');
 
 const schema = `
   type Query {
-    getQuestion(questionId: ID!): Question
+    getQuestion(questionId: ID!): Question!
+    getTaxonTree: [Taxon]!
   }
 
   type Mutation {
@@ -37,6 +38,7 @@ const schema = `
     taxonId: ID!
     name: String!
     commonName: String!
+    photoUrl: String!
   }
 
   type Photos {
