@@ -82,5 +82,4 @@ if (!MOCK_MODE) {
   }));
 }
 
-app.listen(4000);
-console.log('Running a GraphQL API server at localhost:4000/graphql');
+app.listen(process.env.PORT, () => console.log(`Listening on ${process.env.PORT}`));
