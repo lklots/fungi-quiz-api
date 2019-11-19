@@ -5,9 +5,5 @@ Backend that powers the Fungi Quiz.
 
 ```
 SESSION_SECRET=secret
-DB_NAME=fungi_dev
-DB_PORT=5432
-DB_HOST=localhost
-DB_USER=levyklots
-DB_PASS=
+DATABASE_URL=postgresql://levyklots@localhost:5432/fungi_dev
 ```

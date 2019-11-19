@@ -16,6 +16,7 @@
     "graphql": "^14.5.8",
     "graphql-tools": "^4.0.6",
     "lodash": "^4.17.15",
+    "per-env": "^1.0.2",
     "pg": "^7.12.1"
   },
   "devDependencies": {
@@ -26,7 +27,8 @@
     "nodemon": "^1.19.4"
   },
   "scripts": {
-    "start": "./node_modules/.bin/nodemon -r dotenv/config",
-    "mock": "./node_modules/.bin/nodemon -- --mock"
+    "start": "per-env",
+    "start:production": "node server.js",
+    "start:development": "./node_modules/.bin/nodemon -r dotenv/config"
   }
 }
