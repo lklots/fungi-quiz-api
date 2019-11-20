@@ -2,6 +2,8 @@ const _ = require('lodash');
 const express = require('express');
 const session = require('express-session');
 const PgSession = require('connect-pg-simple')(session);
+const compression = require('compression');
+
 
 const graphqlHTTP = require('express-graphql');
 const cors = require('cors');
@@ -66,6 +68,8 @@ app.use(session({
 }));
 
 app.use(cors());
+app.use(compression());
+
 if (!MOCK_MODE) {
   app.use('/graphql', graphqlHTTP({
     schema: graphqlSchema,
